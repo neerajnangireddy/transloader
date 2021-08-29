@@ -43,9 +43,8 @@ def handle_message(update, context):
     op.add_argument("--disable-dev-shm-usage")
     op.page_load_strategy = 'eager'
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
-
+    driver.implicitly_wait(30)
     try:
-
         driver.get("https://aws.rapidleech.gq")
         print(driver.title)
         input_field = driver.find_element_by_id("link")

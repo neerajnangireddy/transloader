@@ -67,9 +67,8 @@ def handle_message(update, context):
                                  text=result)
 
     except Exception as e:
-        error_message = driver.find_element_by_xpath('/html/body/div[1]/div/span/b').text
         context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="Couldn't transload \n"
-                                                                                   "Error: {0}".format(error_message))
+                                                                                   "Error: {0}".format(e))
         print(e)
     finally:
         time.sleep(3)

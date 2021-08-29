@@ -69,6 +69,8 @@ def handle_message(update, context):
     except Exception as e:
         context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="Couldn't transload \n"
                                                                                    "Error: {0}".format(e))
+        driver.save_screenshot("screenshots/error.png")
+        context.bot.send_photo(chat_id=chat_id, photo=open("screenshots/error.png", "rb"))
         print(e)
     finally:
         time.sleep(3)

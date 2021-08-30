@@ -2,9 +2,9 @@ import logging
 import os
 import time
 from os import environ
-
-from selenium import webdriver
 from telegram.ext import *
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 API_KEY = environ["API_KEY"]
 
@@ -30,22 +30,43 @@ def help_command(update, context):
 #     handle_message.driver.quit()
 
 
+def load_driver():
+    options = webdriver.FirefoxOptions()
+
+    # enable trace level for debugging
+    options.log.level = "trace"
+
+    options.add_argument("-remote-debugging-port=9224")
+    options.add_argument("-headless")
+    options.add_argument("-disable-gpu")
+    options.add_argument("-no-sandbox")
+
+    binary = FirefoxBinary(os.environ.get('FIREFOX_BIN'))
+
+    firefox_driver = webdriver.Firefox(
+        firefox_binary=binary,
+        executable_path=os.environ.get('GECKODRIVER_PATH'),
+        options=options)
+
+    return firefox_driver
+
+
 def handle_message(update, context):
     msg_id = update.message.message_id
     chat_id = update.message.chat_id
     url = update.message.text
     context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="transloading")
 
-    op = webdriver.ChromeOptions()
-    op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    op.add_argument("--no-sandbox")
-    op.add_argument("--disable-gpu")
-    op.add_argument("--headless")
-    op.add_argument("--no-sandbox")
-    op.add_argument("--disable-dev-shm-usage")
-    op.page_load_strategy = 'eager'
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
-
+    # op = webdriver.ChromeOptions()
+    # op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    # op.add_argument("--no-sandbox")
+    # op.add_argument("--disable-gpu")
+    # op.add_argument("--headless")
+    # op.add_argument("--no-sandbox")
+    # op.add_argument("--disable-dev-shm-usage")
+    # op.page_load_strategy = 'eager'
+    # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
+    driver = load_driver()
     try:
         driver.get("https://aws.rapidleech.gq")
         time.sleep(6)
@@ -91,7 +112,6 @@ if __name__ == "__main__":
     # commands
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("help", help_command))
-
 
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))

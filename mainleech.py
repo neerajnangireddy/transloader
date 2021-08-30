@@ -1,6 +1,5 @@
 import logging
 import os
-import time
 from os import environ
 from telegram.ext import *
 from selenium import webdriver
@@ -69,13 +68,13 @@ def handle_message(update, context):
     driver = load_driver()
     try:
         driver.get("https://aws.rapidleech.gq")
-        time.sleep(6)
+
         print(driver.title)
         input_field = driver.find_element_by_id("link")
         input_field.clear()
         input_field.send_keys(url)
         input_field.submit()
-        time.sleep(6)
+
         file_name = driver.find_element_by_xpath("/html/body/div/b[1]").text
         file_size = driver.find_element_by_xpath("/html/body/div/b[2]").text
         average_speed = driver.find_element_by_xpath("/html/body/div[1]/b[6]").text

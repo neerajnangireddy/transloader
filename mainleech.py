@@ -75,7 +75,7 @@ def handle_message(update, context):
         input_field.clear()
         input_field.send_keys(url)
         input_field.submit()
-
+        time.sleep(6)
         file_name = driver.find_element_by_xpath("/html/body/div/b[1]").text
         file_size = driver.find_element_by_xpath("/html/body/div/b[2]").text
         average_speed = driver.find_element_by_xpath("/html/body/div[1]/b[6]").text

@@ -1,9 +1,10 @@
 import logging
 import os
+import time
 from os import environ
 from telegram.ext import *
 from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 API_KEY = environ["API_KEY"]
 
@@ -28,7 +29,7 @@ def help_command(update, context):
 #     update.message.reply_text("Quitting...")
 #     handle_message.driver.quit()
 
-
+"""
 def load_driver():
     options = webdriver.FirefoxOptions()
 
@@ -48,6 +49,7 @@ def load_driver():
         options=options)
 
     return firefox_driver
+"""
 
 
 def handle_message(update, context):
@@ -56,25 +58,26 @@ def handle_message(update, context):
     url = update.message.text
     context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="transloading")
 
-    # op = webdriver.ChromeOptions()
-    # op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    # op.add_argument("--no-sandbox")
-    # op.add_argument("--disable-gpu")
-    # op.add_argument("--headless")
-    # op.add_argument("--no-sandbox")
-    # op.add_argument("--disable-dev-shm-usage")
-    # op.page_load_strategy = 'eager'
-    # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
-    driver = load_driver()
-    try:
-        driver.get("https://aws.rapidleech.gq")
+    # driver = load_driver() # use this for firefox
+    op = webdriver.ChromeOptions()
+    op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    op.add_argument("--no-sandbox")
+    op.add_argument("--disable-gpu")
+    op.add_argument("--headless")
+    op.add_argument("--no-sandbox")
+    op.add_argument("--disable-dev-shm-usage")
+    op.page_load_strategy = 'eager'
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
 
+    try:
+        driver.get("http://leech13040.herokuapp.com")
+        time.sleep(3)
         print(driver.title)
         input_field = driver.find_element_by_id("link")
         input_field.clear()
         input_field.send_keys(url)
         input_field.submit()
-
+        time.sleep(5)
         file_name = driver.find_element_by_xpath("/html/body/div/b[1]").text
         file_size = driver.find_element_by_xpath("/html/body/div/b[2]").text
         average_speed = driver.find_element_by_xpath("/html/body/div[1]/b[6]").text
@@ -95,7 +98,6 @@ def handle_message(update, context):
         context.bot.send_photo(chat_id=chat_id, photo=open("screenshots/error.png", "rb"))
         print(e)
     finally:
-        time.sleep(3)
         driver.quit()
 
 

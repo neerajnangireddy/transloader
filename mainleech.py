@@ -4,6 +4,7 @@ import time
 from os import environ
 from telegram.ext import *
 from selenium import webdriver
+import scrapper
 
 # from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
@@ -31,6 +32,11 @@ def help_command(update, context):
 # def cancel_command(update, context):
 #     update.message.reply_text("Quitting...")
 #     handle_message.driver.quit()
+
+
+def stats(update, context):
+    stats_info = scrapper.stats()
+    update.message.reply_text("stats_info")
 
 
 def get_links(update, context):
@@ -150,6 +156,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("getlinks", get_links))
+    dp.add_handler(CommandHandler("stats", stats))
 
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))

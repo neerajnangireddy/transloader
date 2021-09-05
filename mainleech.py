@@ -14,11 +14,13 @@ logging.info("Starting bot.......")
 
 
 def start_command(update, context):
-    update.message.reply_text("Waking up Bot")
+    update.message.reply_text("Waking up Bot\n")
 
 
 def help_command(update, context):
-    update.message.reply_text("Send link to transload")
+    update.message.reply_text("This Bot uses http://leech13040.herokuapp.com to transload"
+                              "\nSend link to transload\n"
+                              "if bot doesn't work contact @babysheldon ")
 
 
 # def custom_command(update, context):
@@ -72,7 +74,7 @@ def handle_message(update, context):
     try:
         driver.get("http://leech13040.herokuapp.com")
         time.sleep(3)
-        print(driver.title)
+        print("accessing leech13040")
         input_field = driver.find_element_by_id("link")
         input_field.clear()
         input_field.send_keys(url)
@@ -98,6 +100,7 @@ def handle_message(update, context):
         context.bot.send_photo(chat_id=chat_id, photo=open("screenshots/error.png", "rb"))
         print(e)
     finally:
+        print("Closing browser")
         driver.quit()
 
 

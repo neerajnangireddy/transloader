@@ -53,6 +53,8 @@ def custom_command(update, context):
             update.message.reply_text("{}\n".format(final_link))
     except Exception as ex:
         print(ex)
+    finally:
+        driver.quit()
 
 
 """

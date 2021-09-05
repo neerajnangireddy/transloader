@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+from os import environ
 
-HOST_URL = "http://www.alterink.com/"
+HOST_URL = environ["HOST_URL"]
 
 
 def stats():

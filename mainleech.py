@@ -9,7 +9,7 @@ import scrapper
 # from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 API_KEY = environ["API_KEY"]
-HOST_URL = "http://www.alterink.com/"
+HOST_URL = environ["HOST_URL"]
 
 # set up logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)

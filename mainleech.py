@@ -36,7 +36,7 @@ def help_command(update, context):
 
 def stats(update, context):
     stats_info = scrapper.stats()
-    update.message.reply_text("stats_info")
+    update.message.reply_text(stats_info)
 
 
 def get_links(update, context):

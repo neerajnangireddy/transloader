@@ -32,7 +32,7 @@ def help_command(update, context):
 #     handle_message.driver.quit()
 
 
-def custom_command(update, context):
+def get_links(update, context):
     op = webdriver.ChromeOptions()
     op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     op.add_argument("--no-sandbox")
@@ -145,6 +145,7 @@ if __name__ == "__main__":
     # commands
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("getlinks", get_links)
 
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))

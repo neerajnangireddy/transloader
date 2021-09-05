@@ -145,11 +145,10 @@ if __name__ == "__main__":
     # commands
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("help", help_command))
-    dp.add_handler(CommandHandler("getlinks", get_links)
+    dp.add_handler(CommandHandler("getlinks", get_links))
 
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))
-
     # Log Handler
     dp.add_error_handler(error)
 

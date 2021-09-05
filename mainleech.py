@@ -45,15 +45,18 @@ def get_links(update, context):
 
     try:
         driver.get("http://leech13040.herokuapp.com")
+        print("accessing leech")
         driver.find_element_by_xpath('/html/body/table[1]/tbody/tr/td[2]/table[1]/tbody/tr/td[3]').click()
         list_table = driver.find_element_by_id("table_filelist")
         link_list = list_table.find_elements_by_css_selector("tbody td tr a")
+        print("getting links")
         for link in link_list:
             final_link = link.get_attribute("href")
             update.message.reply_text("{}\n".format(final_link))
     except Exception as ex:
         print(ex)
     finally:
+        print("closing browser")
         driver.quit()
 
 

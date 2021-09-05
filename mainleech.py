@@ -19,7 +19,7 @@ def start_command(update, context):
 
 def help_command(update, context):
     update.message.reply_text("This Bot uses http://leech13040.herokuapp.com to transload"
-                              "\nSend link to transload\n"
+                              "\n->mega Links are not supported by the site\n"
                               "if bot doesn't work contact @babysheldon ")
 
 
@@ -80,26 +80,29 @@ def handle_message(update, context):
         input_field.send_keys(url)
         input_field.submit()
         time.sleep(5)
-        file_name = driver.find_element_by_xpath("/html/body/div/b[1]").text
-        file_size = driver.find_element_by_xpath("/html/body/div/b[2]").text
-        average_speed = driver.find_element_by_xpath("/html/body/div[1]/b[6]").text
-        download_link = driver.find_element_by_css_selector("div a").get_attribute("href")
+        try:
+            file_name = driver.find_element_by_xpath("/html/body/div/b[1]").text
+            file_size = driver.find_element_by_xpath("/html/body/div/b[2]").text
+            average_speed = driver.find_element_by_xpath("/html/body/div[1]/b[6]").text
+            download_link = driver.find_element_by_css_selector("div a").get_attribute("href")
 
-        result = "File Name: {0}\n" \
-                 "File Size: {1}\n" \
-                 "Average Speed: {2}\n" \
-                 "Download Link: {3}".format(file_name, file_size, average_speed, download_link)
+            result = "File Name: {0}\n" \
+                     "File Size: {1}\n" \
+                     "Average Speed: {2}\n" \
+                     "Download Link: {3}".format(file_name, file_size, average_speed, download_link)
 
-        context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id,
-                                 text=result)
-
+            context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id,
+                                     text=result)
+        except:
+            htmlerror = driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[2]/span').text
+            print(htmlerror)
     except Exception as e:
         context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="Couldn't transload \n"
                                                                                    "Error: {0}".format(e))
-        driver.save_screenshot("screenshots/error.png")
-        context.bot.send_photo(chat_id=chat_id, photo=open("screenshots/error.png", "rb"))
         print(e)
     finally:
+        driver.save_screenshot("screenshots/error.png")
+        context.bot.send_photo(chat_id=chat_id, reply_to_message_id=msg_id, photo=open("screenshots/error.png", "rb"))
         print("Closing browser")
         driver.quit()
 

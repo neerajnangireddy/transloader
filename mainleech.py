@@ -31,6 +31,30 @@ def help_command(update, context):
 #     update.message.reply_text("Quitting...")
 #     handle_message.driver.quit()
 
+
+def custom_command(update, context):
+    op = webdriver.ChromeOptions()
+    op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    op.add_argument("--no-sandbox")
+    op.add_argument("--disable-gpu")
+    op.add_argument("--headless")
+    op.add_argument("--no-sandbox")
+    op.add_argument("--disable-dev-shm-usage")
+    op.page_load_strategy = 'eager'
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
+
+    try:
+        driver.get("http://leech13040.herokuapp.com")
+        driver.find_element_by_xpath('/html/body/table[1]/tbody/tr/td[2]/table[1]/tbody/tr/td[3]').click()
+        list_table = driver.find_element_by_id("table_filelist")
+        link_list = list_table.find_elements_by_css_selector("tbody td tr a")
+        for link in link_list:
+            final_link = link.get_attribute("href")
+            update.message.reply_text("{}\n".format(final_link))
+    except Exception as ex:
+        print(ex)
+
+
 """
 def load_driver():
     options = webdriver.FirefoxOptions()
@@ -94,8 +118,8 @@ def handle_message(update, context):
             context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id,
                                      text=result)
         except:
-            htmlerror = driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[2]/span').text
-            print(htmlerror)
+            html_error = driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[2]/span').text
+            context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text=html_error)
     except Exception as e:
         context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="Couldn't transload \n"
                                                                                    "Error: {0}".format(e))

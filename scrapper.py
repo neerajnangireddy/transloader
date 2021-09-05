@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
+HOST_URL = "http://www.alterink.com/"
+
 
 def stats():
-    content = requests.get("http://leech13040.herokuapp.com")
+    content = requests.get(HOST_URL)
     soup = BeautifulSoup(content.text, "html.parser")
     server_stats = soup.find(id="server_stats")
     inuse = server_stats.find(id="inuse").text

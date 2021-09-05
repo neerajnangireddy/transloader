@@ -9,6 +9,7 @@ import scrapper
 # from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 API_KEY = environ["API_KEY"]
+HOST_URL = "http://www.alterink.com/"
 
 # set up logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -20,9 +21,9 @@ def start_command(update, context):
 
 
 def help_command(update, context):
-    update.message.reply_text("This Bot uses http://leech13040.herokuapp.com to transload"
+    update.message.reply_text("This Bot uses {0} to transload"
                               "\n->mega Links are not supported by the site\n"
-                              "if bot doesn't work contact @babysheldon ")
+                              "if bot doesn't work contact @babysheldon ".format(HOST_URL))
 
 
 # def custom_command(update, context):
@@ -51,7 +52,7 @@ def get_links(update, context):
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
 
     try:
-        driver.get("http://leech13040.herokuapp.com")
+        driver.get(HOST_URL)
         print("accessing leech")
         driver.find_element_by_xpath('/html/body/table[1]/tbody/tr/td[2]/table[1]/tbody/tr/td[3]').click()
         list_table = driver.find_element_by_id("table_filelist")
@@ -108,7 +109,7 @@ def handle_message(update, context):
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
 
     try:
-        driver.get("http://leech13040.herokuapp.com")
+        driver.get(HOST_URL)
         time.sleep(3)
         print("accessing leech13040")
         input_field = driver.find_element_by_id("link")

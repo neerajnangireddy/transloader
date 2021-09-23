@@ -5,6 +5,8 @@ from os import environ
 from telegram.ext import *
 from selenium import webdriver
 import scrapper
+import pyshorteners
+import dynoInfo
 
 # from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
@@ -38,6 +40,11 @@ def help_command(update, context):
 def stats(update, context):
     stats_info = scrapper.stats()
     update.message.reply_text(stats_info)
+
+
+def dyno_stats(update, context):
+    usageInfo = dynoInfo.dynoStats()
+    update.message.reply_text(usageInfo)
 
 
 def get_links(update, context):
@@ -144,6 +151,10 @@ def handle_message(update, context):
         driver.quit()
 
 
+def short(url):
+    return pyshorteners.Shortener().tinyurl.short(url)
+
+
 def error(update, context):
     # logs errors
     logging.error(f"Update {update} caused error {context.error}")
@@ -158,6 +169,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("getlinks", get_links))
     dp.add_handler(CommandHandler("stats", stats))
+    dp.add_handler(CommandHandler("usage", dyno_stats))
 
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))

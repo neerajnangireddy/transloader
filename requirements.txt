@@ -4,6 +4,8 @@ cachetools==4.2.2
 certifi==2021.5.30
 charset-normalizer==2.0.4
 idna==3.2
+psutil==5.8.0
+pyshorteners==1.0.1
 python-telegram-bot==13.7
 pytz==2021.1
 requests==2.26.0

@@ -139,6 +139,7 @@ def handle_message(update, context):
                                      text=result)
         except:
             html_error = driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[2]/span').text
+            html_error = html_error.replace("/", " or ")
             context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text=html_error)
     except Exception as e:
         context.bot.send_message(chat_id=chat_id, reply_to_message_id=msg_id, text="Couldn't transload \n"
